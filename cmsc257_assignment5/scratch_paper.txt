@@ -1,0 +1,23 @@
+num = (rand() % 25) + 1;
+sprintf(file_name, "%s%d%s", "file00", num, ".txt");
+printf("Requesting file : %s\n", file_name);
+FILE * file = fopen(file_name, "w");
+
+if (file == NULL) {
+  fprintf(stdout, "client: file is null");
+  exit(-1);
+}
+fscanf(file, "%s\n", buffer);
+
+if (send(sock_fd, file_name, MAXDATASIZE - 1, 0) == -1) {
+  perror("client: error in sending the file");
+}
+
+printf("after send, before while loop\n");
+while (1) {
+  printf("in while loop\n");
+  if ((numbytes = recv(sock_fd, file, MAXDATASIZE - 1, 0)) == -1) {
+    perror
+  }
+
+}
