@@ -1,0 +1,162 @@
+––––––––––––––––––––––––––––––––––––––––––––––––––
+
+int main (int argc, char *argv[])
+{
+  char cmd[100], command[100], *parameters[20];
+  char *input = malloc(50 * sizeof(char));
+  char **words = malloc(10 * sizeof(char));
+  char *evnp[] = { (char*) "PATH=/bin", 0};
+  int pid;
+  char *prompt = "257sh>";
+
+  if (argc >= 2 && strcmp(argc[1], "-p") == 0) {
+    char temp[51];
+    strcpy(prompt, argv[2]);
+    strcat(prompt, ">");
+    prompt = temp;
+    while (strcmp( input, "exit" ) != 0 ) {  // repeat forever
+      fputs(prompt, stdout);   // display prompt on screen
+      read_command( command, parameters );   // read input from terminal
+      if ( fork() != 0) {   // parent
+        wait(NULL);   // wait for child
+      } else {
+        strcpy( cmd, "/bin/");
+        strcat( cmd, command);
+        execve( cmd, parameters, evnp);   // execute command
+      }
+      if (strcmp ( command, "exit") == 0) {  break; }
+    }
+  }
+  return 0;
+}
+
+––––––––––––––––––––––––––––––––––––
+
+// void type_prompt(char *temp)
+// {
+//   fprintf(stderr, "%s\n", );
+//   static int first_time = 1;
+//   if ( first_time ) {   // clear screen for first time
+//     const char* CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
+//     write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+//     first_time = 0;
+//   }
+//   printf("257sh>");  // display prompt
+// }
+
+––––––––––––––––––––––––––––––––––––––
+
+// void display_prompt(char *prompt)
+// {
+//   fputs( prompt, stdout );
+//   printf("%s> ", prompt);
+// }
+//
+// int main (int argc, char **argv)
+// {
+//   char *prompt;
+//   char *command = malloc( 50 * sizeof(char) );
+//   char **cmd = malloc( 10 * sizeof(char*) );
+//
+//   if ( argc >= 2 && strcmp(argv[1], "-p" ) == 0 ) {
+//     prompt = argv[2];
+//     if ( prompt == NULL ) { prompt = "257sh"; };
+//     while(1) {
+//       display_prompt(prompt);
+//       fgets( command, 64, stdin );
+//
+//     }
+//   }
+//
+//
+//   return 0;
+// }
+
+–––––––––––––––––––––––––––––––––––––––––––
+
+// while (next != NULL) {   // 'next' points to '|' until it equals NULL
+// 	*next = '\0';  // refresh next
+// 	input = run(cmd);  // run command
+//
+// 	cmd = next + 1;
+// 	next = strchr(cmd, '|'); /* Find next '|' */
+// 	first = 0;
+// }
+
+–––––––––––––––––––––––––––––––––––
+
+// char *token;
+// token = strtok(cmd, " ");
+// while (token != NULL) {
+// 	printf("in token loop\n");
+// 	args[i] = token;
+// 	token = strtok(NULL, " ");
+// 	i++;
+// }
+
+–––––––––––––––––––––––––––––––––––––––
+
+// cmd = skip_white(cmd);
+// char* next = strchr(cmd, ' ');
+
+
+//  return tok;
+
+	// while(next != NULL) {
+	// 	next[0] = '\0';
+	// 	args[i] = cmd;
+	// 	++i;
+	// 	cmd = skip_white(next + 1);
+	// 	next = strchr(cmd, ' ');
+	// }
+  //
+	// if (cmd[0] != '\0') {
+	// 	args[i] = cmd;
+	// 	next = strchr(cmd, '\n');
+	// 	next[0] = '\0';
+	// 	++i;
+	// }
+
+–––––––––––––––––––––––––––––––––––
+
+
+// // function to skip white space
+// char* skip_white(char* s)
+// {
+// 	while (isspace(*s)) ++s;
+// 	return s;
+// }
+
+–––––––––––––––––––––––––––––––
+
+//fflush(NULL);  // clears the output buffer
+
+–––––––––––––––––––––––––––
+
+// 	while (1) {
+// 		printf("in loop");
+// 		char *buffer = (char*) xmalloc(size);
+// 		if ( getcwd(buffer, size) == buffer )
+// 			return buffer;
+// 		free( buffer );
+// 		if ( errno != ERANGE)
+// 			return 0;
+// 		size *= 2;
+// 	}
+
+–––––––––––––––––––––––––––
+
+// if (chdir("/tmp") != 0)
+//     perror("chdir() error()");
+// else {
+// 	if (getcwd(cwd, sizeof(cwd)) == NULL)
+// 		perror("getcwd() error");
+// 	else
+// 		printf("current working directory is: %s\n", cwd);
+// }
+
+// char* temp = getcwd(cwd, sizeof(cwd));
+// if ( temp != NULL)
+// 	fprintf(stdout, "Current working directory: %s\n", temp);
+// else
+// 	fprintf(stdout, "failed to return cwd.\n");
